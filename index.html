@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Itodo CV Generator</title>
   <style>
+    /* General page styling */
     body {
       font-family: "Poppins", sans-serif;
       background: #fff;
@@ -20,6 +21,7 @@
       padding: 1rem;
       font-size: 1.5rem;
       font-weight: bold;
+      letter-spacing: 1px;
     }
 
     .container {
@@ -27,15 +29,15 @@
       flex-wrap: wrap;
       justify-content: space-between;
       padding: 20px;
+      gap: 20px;
     }
 
     form {
       flex: 1 1 300px;
-      background: #f9f9f9;
+      background: #f8f8f8;
       padding: 20px;
       border-radius: 10px;
-      box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-      margin-right: 20px;
+      box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
     }
 
     label {
@@ -51,6 +53,7 @@
       border-radius: 6px;
       border: 1px solid #ccc;
       font-size: 14px;
+      box-sizing: border-box;
     }
 
     button {
@@ -74,38 +77,50 @@
       background: #fff;
       border-radius: 10px;
       padding: 20px;
-      box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
       min-height: 400px;
     }
 
-    .cv-header {
-      text-align: center;
-      border-bottom: 2px solid #c40000;
-      padding-bottom: 10px;
-      margin-bottom: 20px;
+    /* Minimal CV layout (no red, clean black & white) */
+    #cvContent {
+      font-family: "Arial", sans-serif;
+      color: #000;
+      line-height: 1.5;
     }
 
-    .cv-header h2 {
-      color: #c40000;
+    #cvContent h2 {
       margin: 0;
+      text-align: center;
+      font-size: 22px;
+      font-weight: 700;
+    }
+
+    #cvContent p {
+      margin: 5px 0;
+      text-align: center;
+      font-size: 14px;
     }
 
     .cv-section {
-      margin-bottom: 15px;
+      margin-top: 20px;
     }
 
     .cv-section h3 {
-      border-left: 5px solid #c40000;
-      padding-left: 8px;
-      color: #111;
-      margin-bottom: 8px;
+      font-size: 16px;
+      text-transform: uppercase;
+      border-bottom: 1px solid #000;
+      margin-bottom: 10px;
+      padding-bottom: 4px;
+    }
+
+    .cv-section p {
+      text-align: left;
+      font-size: 14px;
     }
 
     .download-btn {
-      display: block;
-      margin: 20px auto;
       text-align: center;
-      width: fit-content;
+      margin-top: 20px;
     }
   </style>
 </head>
@@ -114,6 +129,7 @@
   <header>Itodo CV Generator</header>
 
   <div class="container">
+    <!-- Form Section -->
     <form id="cvForm">
       <label>Full Name</label>
       <input type="text" id="name" placeholder="Enter your full name" required>
@@ -136,6 +152,7 @@
       <button type="button" onclick="generateCV()">Generate CV</button>
     </form>
 
+    <!-- CV Preview Section -->
     <div class="cv-preview" id="cvPreview">
       <p style="text-align:center;color:#aaa;">Your CV will appear here...</p>
     </div>
@@ -145,7 +162,7 @@
     <button id="downloadPDF" onclick="downloadPDF()" style="display:none;">Download as PDF</button>
   </div>
 
-  <!-- html2pdf.js CDN -->
+  <!-- html2pdf.js for PDF conversion -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
   <script>
@@ -164,10 +181,8 @@
 
       const cvHTML = `
         <div id="cvContent">
-          <div class="cv-header">
-            <h2>${name}</h2>
-            <p>${email} | ${phone}</p>
-          </div>
+          <h2>${name}</h2>
+          <p>${email} | ${phone}</p>
           <div class="cv-section">
             <h3>Education</h3>
             <p>${education.replace(/\n/g, '<br>')}</p>
@@ -192,7 +207,7 @@
       const options = {
         margin: 0.5,
         filename: "Itodo_CV.pdf",
-        image: { type: "jpeg", quality: 0.98 },
+        image: { type: "jpeg", quality: 1 },
         html2canvas: { scale: 2 },
         jsPDF: { unit: "in", format: "a4", orientation: "portrait" }
       };
@@ -201,4 +216,4 @@
   </script>
 
 </body>
-  </html>
+</html>
