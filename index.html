@@ -1,208 +1,237 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Itodo CV Generator</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Itodo CV Generator — Fixed PDF</title>
 
-  <!-- Google Fonts -->
+  <!-- Fonts + minimal styles -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
-
-  <!-- Styling -->
   <style>
-    body {
-      font-family: "Inter", sans-serif;
-      background: #fff;
-      color: #111;
-      margin: 0;
-      padding: 0;
-    }
-
-    header {
-      background: #d32f2f;
-      color: #fff;
-      text-align: center;
-      padding: 1.5rem 0;
-      font-size: 1.5rem;
-      font-weight: 600;
-    }
-
-    .container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      margin: 2rem auto;
-      width: 90%;
-      max-width: 800px;
-    }
-
-    form {
-      background: #fff;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-      border-radius: 10px;
-      padding: 2rem;
-      width: 100%;
-      margin-bottom: 2rem;
-    }
-
-    form input, form textarea {
-      width: 100%;
-      padding: 10px;
-      margin: 10px 0;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-    }
-
-    form button {
-      background: #d32f2f;
-      color: #fff;
-      padding: 12px 20px;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      font-weight: 600;
-      margin-top: 10px;
-    }
-
-    form button:hover {
-      background: #b71c1c;
-    }
-
-    #cv-preview {
-      background: #fff;
-      color: #000;
-      padding: 2rem;
-      border-radius: 8px;
-      width: 100%;
-      max-width: 700px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    }
-
-    #cv-preview h2 {
-      margin-bottom: 0.2rem;
-      border-bottom: 2px solid #000;
-      padding-bottom: 5px;
-    }
-
-    #cv-preview p {
-      margin: 6px 0;
-      line-height: 1.4;
-    }
-
-    .btn-group {
-      display: flex;
-      gap: 10px;
-      justify-content: center;
-    }
-
-    .btn-group button {
-      background: #000;
-      color: #fff;
-      padding: 10px 16px;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      font-weight: 600;
-    }
-
-    .btn-group button:hover {
-      background: #d32f2f;
+    body { font-family: "Inter", sans-serif; margin:0; background:#fff; color:#111; }
+    header { background:#d32f2f; color:#fff; text-align:center; padding:1rem 0; font-weight:600; }
+    .wrap { max-width:900px; margin:24px auto; padding:0 16px; }
+    form { background:#fff; border-radius:8px; padding:18px; box-shadow:0 6px 18px rgba(0,0,0,0.06); }
+    input, textarea { width:100%; padding:10px; margin-top:8px; border:1px solid #ddd; border-radius:6px; box-sizing:border-box; }
+    label { margin-top:12px; display:block; font-weight:600; }
+    .controls { display:flex; gap:8px; margin-top:12px; }
+    .btn { background:#d32f2f; color:#fff; border:none; padding:10px 14px; border-radius:6px; cursor:pointer; font-weight:600; }
+    .btn.secondary { background:#000; }
+    .previewWrap { margin-top:18px; display:flex; gap:18px; flex-direction:column; align-items:center; }
+    /* CV preview: minimal black & white (no red) */
+    #cvPreview { width: 794px; /* target ~A4 width at 96dpi */ background:#fff; padding:30px; border:1px solid #eee; border-radius:6px; color:#000; box-shadow:0 6px 20px rgba(0,0,0,0.04); display:none; }
+    #cvPreview h2 { margin:0 0 6px 0; font-size:22px; text-align:center; }
+    #cvPreview .meta { text-align:center; color:#444; margin-bottom:14px; }
+    .cvSection { margin-bottom:14px; }
+    .cvSection h3 { margin:0 0 6px 0; font-size:13px; letter-spacing:0.06em; border-bottom:1px solid #111; padding-bottom:6px; text-transform:uppercase; }
+    .cvSection p, .cvSection ul { margin:6px 0 0 0; font-size:14px; line-height:1.5; color:#111; }
+    /* small screens: scale preview visually but keep internal width for accurate capture */
+    @media (max-width:900px){
+      #cvPreview { transform: scale(0.8); transform-origin: top center; }
     }
   </style>
 </head>
 <body>
-
   <header>Itodo CV Generator</header>
 
-  <div class="container">
+  <div class="wrap">
     <form id="cvForm">
-      <input type="text" id="fullName" placeholder="Full Name" required>
-      <input type="email" id="email" placeholder="Email" required>
-      <input type="text" id="phone" placeholder="Phone" required>
-      <input type="text" id="address" placeholder="Address" required>
-      <textarea id="summary" placeholder="Professional Summary"></textarea>
-      <textarea id="skills" placeholder="Skills (comma separated)"></textarea>
-      <textarea id="experience" placeholder="Work Experience"></textarea>
-      <textarea id="education" placeholder="Education"></textarea>
-      <button type="submit">Generate CV</button>
+      <label>Full Name</label>
+      <input id="fullName" required placeholder="e.g. John Doe" />
+
+      <label>Email</label>
+      <input id="email" type="email" required placeholder="you@example.com" />
+
+      <label>Phone</label>
+      <input id="phone" required placeholder="+234 800 000 0000" />
+
+      <label>Address</label>
+      <input id="address" placeholder="City, State, Country" />
+
+      <label>Professional Summary</label>
+      <textarea id="summary" rows="3" placeholder="Short profile summary"></textarea>
+
+      <label>Skills (comma separated)</label>
+      <textarea id="skills" rows="2" placeholder="HTML, CSS, JS"></textarea>
+
+      <label>Work Experience</label>
+      <textarea id="experience" rows="4" placeholder="Company — Role (Year–Year)\nResponsibilities..."></textarea>
+
+      <label>Education</label>
+      <textarea id="education" rows="3" placeholder="Degree — Institution (Year)"></textarea>
+
+      <div class="controls">
+        <button class="btn" id="generateBtn" type="button">Generate CV</button>
+        <button class="btn secondary" id="downloadPdfBtn" type="button" style="display:none;">Download PDF</button>
+        <button class="btn secondary" id="downloadDocBtn" type="button" style="display:none;">Download DOC</button>
+      </div>
     </form>
 
-    <div id="cv-preview" style="display:none;">
-      <h2 id="nameDisplay"></h2>
-      <p><strong>Email:</strong> <span id="emailDisplay"></span></p>
-      <p><strong>Phone:</strong> <span id="phoneDisplay"></span></p>
-      <p><strong>Address:</strong> <span id="addressDisplay"></span></p>
-      <h3>Professional Summary</h3>
-      <p id="summaryDisplay"></p>
-      <h3>Skills</h3>
-      <ul id="skillsDisplay"></ul>
-      <h3>Experience</h3>
-      <p id="experienceDisplay"></p>
-      <h3>Education</h3>
-      <p id="educationDisplay"></p>
-    </div>
-
-    <div class="btn-group" id="downloadButtons" style="display:none;">
-      <button id="downloadPDF">Download PDF</button>
-      <button id="downloadDOC">Download DOC</button>
+    <div class="previewWrap">
+      <!-- Preview that will be captured — note: internal layout is fixed width for consistent capture -->
+      <div id="cvPreview" aria-hidden="false">
+        <!-- dynamically filled -->
+      </div>
+      <p id="hint" style="color:#666; font-size:13px; display:none;">Preview shown above. Use the Download buttons to save.</p>
     </div>
   </div>
 
-  <!-- JS Libraries -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
-
-  <!-- Script -->
+  <!-- Required libs -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script>
-    const form = document.getElementById('cvForm');
-    const preview = document.getElementById('cv-preview');
-    const downloadButtons = document.getElementById('downloadButtons');
+    // Helpers
+    const q = id => document.getElementById(id);
+    const generateBtn = q('generateBtn');
+    const downloadPdfBtn = q('downloadPdfBtn');
+    const downloadDocBtn = q('downloadDocBtn');
+    const cvPreview = q('cvPreview');
+    const hint = q('hint');
 
-    form.addEventListener('submit', (e) => {
-      e.preventDefault();
+    function buildPreviewHTML(data) {
+      // Build clean minimal CV HTML (black & white only)
+      const skillsList = data.skills ? '<ul>' + data.skills.split(',').map(s => `<li>${escapeHtml(s.trim())}</li>`).join('') + '</ul>' : '<p>N/A</p>';
+      return `
+        <div id="cvContent" style="width:734px; /* inner content width (A4 margin) */">
+          <h2>${escapeHtml(data.name)}</h2>
+          <div class="meta">${escapeHtml(data.email)} | ${escapeHtml(data.phone)}${data.address ? ' | ' + escapeHtml(data.address) : ''}</div>
 
-      document.getElementById('nameDisplay').textContent = document.getElementById('fullName').value;
-      document.getElementById('emailDisplay').textContent = document.getElementById('email').value;
-      document.getElementById('phoneDisplay').textContent = document.getElementById('phone').value;
-      document.getElementById('addressDisplay').textContent = document.getElementById('address').value;
-      document.getElementById('summaryDisplay').textContent = document.getElementById('summary').value;
-      document.getElementById('experienceDisplay').textContent = document.getElementById('experience').value;
-      document.getElementById('educationDisplay').textContent = document.getElementById('education').value;
+          <div class="cvSection">
+            <h3>Professional Summary</h3>
+            <p>${nl2br(escapeHtml(data.summary) || 'N/A')}</p>
+          </div>
 
-      const skills = document.getElementById('skills').value.split(',');
-      const skillsList = document.getElementById('skillsDisplay');
-      skillsList.innerHTML = '';
-      skills.forEach(skill => {
-        const li = document.createElement('li');
-        li.textContent = skill.trim();
-        skillsList.appendChild(li);
-      });
+          <div class="cvSection">
+            <h3>Skills</h3>
+            ${skillsList}
+          </div>
 
-      preview.style.display = 'block';
-      downloadButtons.style.display = 'flex';
-      window.scrollTo({ top: preview.offsetTop, behavior: 'smooth' });
-    });
+          <div class="cvSection">
+            <h3>Experience</h3>
+            <p>${nl2br(escapeHtml(data.experience) || 'N/A')}</p>
+          </div>
 
-    // Download PDF
-    document.getElementById('downloadPDF').addEventListener('click', () => {
-      const element = document.getElementById('cv-preview');
-      const opt = {
-        margin: 0.5,
-        filename: 'Itodo_CV.pdf',
-        image: { type: 'jpeg', quality: 1 },
-        html2canvas: { scale: 2 },
-        jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
+          <div class="cvSection">
+            <h3>Education</h3>
+            <p>${nl2br(escapeHtml(data.education) || 'N/A')}</p>
+          </div>
+        </div>
+      `;
+    }
+
+    // basic HTML escape
+    function escapeHtml(str) {
+      if (!str) return '';
+      return str.replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;').replaceAll("'",'&#39;');
+    }
+    function nl2br(s){ return (s||'').split('\n').map(ln => ln || '<br>').join('<br>'); }
+
+    // Generate preview
+    generateBtn.addEventListener('click', () => {
+      const data = {
+        name: q('fullName').value.trim(),
+        email: q('email').value.trim(),
+        phone: q('phone').value.trim(),
+        address: q('address').value.trim(),
+        summary: q('summary').value.trim(),
+        skills: q('skills').value.trim(),
+        experience: q('experience').value.trim(),
+        education: q('education').value.trim()
       };
-      html2pdf().set(opt).from(element).save();
+
+      if (!data.name || !data.email || !data.phone) {
+        alert('Please fill Name, Email and Phone.');
+        return;
+      }
+
+      cvPreview.innerHTML = buildPreviewHTML({ name: data.name, email: data.email, phone: data.phone, address: data.address, summary: data.summary, skills: data.skills, experience: data.experience, education: data.education });
+      cvPreview.style.display = 'block';
+      hint.style.display = 'block';
+      downloadPdfBtn.style.display = 'inline-block';
+      downloadDocBtn.style.display = 'inline-block';
+
+      // Scroll to preview so it's visible and fully rendered
+      cvPreview.scrollIntoView({ behavior: 'smooth', block: 'center' });
     });
 
-    // Download DOC
-    document.getElementById('downloadDOC').addEventListener('click', () => {
-      const content = preview.innerHTML;
-      const blob = new Blob(['<html><head><meta charset="utf-8"></head><body>' + content + '</body></html>'], { type: 'application/msword' });
-      saveAs(blob, 'Itodo_CV.doc');
+    // PDF download using html2canvas + jsPDF (robust)
+    downloadPdfBtn.addEventListener('click', async () => {
+      const content = document.getElementById('cvContent');
+      if (!content) { alert('Please generate the CV first.'); return; }
+
+      // Ensure element is visible and fully rendered
+      // Add a temporary wrapper with white background to ensure non-transparent capture
+      content.style.background = '#ffffff';
+
+      // Wait a tick for browser rendering
+      await new Promise(r => setTimeout(r, 150));
+
+      try {
+        // capture with html2canvas
+        const canvas = await html2canvas(content, {
+          scale: 2,           // increase resolution (important for clarity)
+          useCORS: true,
+          backgroundColor: '#ffffff'
+        });
+
+        const imgData = canvas.toDataURL('image/png');
+
+        // Create PDF
+        const { jsPDF } = window.jspdf;
+        const pdf = new jsPDF('p', 'mm', 'a4');
+
+        const pageWidthMM = 210;           // A4 width (mm)
+        const pageHeightMM = 297;          // A4 height (mm)
+        const pxPerMM = canvas.width / (pageWidthMM * (canvas.width / canvas.clientWidth)); // not used directly
+
+        // Compute image dimensions to fit A4 width with margin 10mm
+        const margin = 10; // mm
+        const availableWidth = pageWidthMM - margin * 2;
+        // compute height maintaining aspect ratio
+        const imgProps = canvas;
+        const imgWidthPx = canvas.width;
+        const imgHeightPx = canvas.height;
+        const imgRatio = imgHeightPx / imgWidthPx;
+        const imgWidthMM = availableWidth;
+        const imgHeightMM = imgWidthMM * imgRatio;
+
+        if (imgHeightMM <= (pageHeightMM - margin*2)) {
+          // fits in single page
+          pdf.addImage(imgData, 'PNG', margin, margin, imgWidthMM, imgHeightMM);
+        } else {
+          // If taller than page, scale down to fit in one page (keeps it simple and reliable)
+          const scale = (pageHeightMM - margin*2) / imgHeightMM;
+          const finalW = imgWidthMM * scale;
+          const finalH = imgHeightMM * scale;
+          const x = (pageWidthMM - finalW) / 2;
+          pdf.addImage(imgData, 'PNG', x, margin, finalW, finalH);
+        }
+
+        pdf.save('Itodo_CV.pdf');
+      } catch (err) {
+        console.error('PDF generation failed', err);
+        alert('PDF generation failed — see console for details.');
+      }
+    });
+
+    // DOC download: simple HTML->.doc wrapper (works in Word)
+    downloadDocBtn.addEventListener('click', () => {
+      const content = document.getElementById('cvContent');
+      if (!content) { alert('Please generate the CV first.'); return; }
+      const header = "<html xmlns:o='urn:schemas-microsoft-com:office:office' " +
+                     "xmlns:w='urn:schemas-microsoft-com:office:word' " +
+                     "xmlns='http://www.w3.org/TR/REC-html40'><head><meta charset='utf-8'></head><body>";
+      const footer = "</body></html>";
+      const blob = new Blob([header + content.outerHTML + footer], { type: 'application/msword' });
+      const filename = 'Itodo_CV.doc';
+      // create download link
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = filename;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
     });
   </script>
-
 </body>
   </html>
