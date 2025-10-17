@@ -1,0 +1,116 @@
+body {
+  font-family: "Poppins", sans-serif;
+  background: #f7f8fc;
+  color: #333;
+  margin: 0;
+  padding: 20px;
+}
+
+.container {
+  max-width: 1100px;
+  margin: auto;
+  background: #fff;
+  border-radius: 12px;
+  padding: 30px;
+  box-shadow: 0 0 15px rgba(0,0,0,0.1);
+}
+
+h1 {
+  text-align: center;
+  color: #2c3e50;
+  margin-bottom: 20px;
+}
+
+form label {
+  display: block;
+  margin-top: 10px;
+  font-weight: 600;
+}
+
+input, textarea {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-family: inherit;
+}
+
+button {
+  background: #2c3e50;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 15px;
+}
+
+button:hover {
+  background: #34495e;
+}
+
+.cv-section {
+  display: none;
+  margin-top: 40px;
+}
+
+/* ========== CV Preview Layout ========== */
+.cv-container {
+  display: flex;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.cv-left {
+  width: 30%;
+  background: #2c3e50;
+  color: white;
+  padding: 20px;
+}
+
+.cv-left img {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  display: block;
+  margin: 0 auto 15px;
+  object-fit: cover;
+}
+
+.cv-left h2 {
+  text-align: center;
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.cv-left p {
+  font-size: 14px;
+  margin: 8px 0;
+}
+
+.cv-right {
+  width: 70%;
+  padding: 25px;
+}
+
+.cv-right h3 {
+  color: #2c3e50;
+  border-bottom: 2px solid #2c3e50;
+  padding-bottom: 5px;
+  margin-bottom: 10px;
+}
+
+.cv-right p {
+  line-height: 1.6;
+  margin-bottom: 10px;
+}
+
+.btns {
+  margin-top: 20px;
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+}
