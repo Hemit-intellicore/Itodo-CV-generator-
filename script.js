@@ -1,85 +1,72 @@
 document.getElementById("generateBtn").addEventListener("click", generateCV);
 
 function generateCV() {
-  const name = document.getElementById("name").value;
-  const email = document.getElementById("email").value;
-  const phone = document.getElementById("phone").value;
-  const address = document.getElementById("address").value;
-  const summary = document.getElementById("summary").value;
-  const education = document.getElementById("education").value;
-  const experience = document.getElementById("experience").value;
-  const skills = document.getElementById("skills").value.split(",");
-  const photoFile = document.getElementById("photo").files[0];
+  const name = document.getElementById("name").value.trim();
+  const email = document.getElementById("email").value.trim();
+  const phone = document.getElementById("phone").value.trim();
+  const address = document.getElementById("address").value.trim();
+  const summary = document.getElementById("summary").value.trim();
+  const education = document.getElementById("education").value.trim();
+  const experience = document.getElementById("experience").value.trim();
+  const skills = document.getElementById("skills").value.trim();
 
   if (!name || !email || !phone) {
-    alert("Please fill out the required fields.");
+    alert("Please fill in all required fields.");
     return;
   }
 
-  let photoURL = "";
-  if (photoFile) {
-    const reader = new FileReader();
-    reader.onload = function(e) {
-      photoURL = e.target.result;
-      displayCV(photoURL);
-    };
-    reader.readAsDataURL(photoFile);
-  } else {
-    displayCV(photoURL);
-  }
+  const cvHTML = `
+    <div class="cv" id="cvPreview">
+      <h2>${name}</h2>
+      <p>${email} | ${phone} | ${address}</p>
 
-  function displayCV(photo) {
-    const skillsList = skills.map(skill => `<li>${skill.trim()}</li>`).join("");
+      <section>
+        <h3>Profile Summary</h3>
+        <p>${summary}</p>
+      </section>
 
-    const output = `
-      <div class="cv-container" id="cvPreview">
-        <div class="cv-left">
-          ${photo ? `<img src="${photo}" alt="Profile Picture">` : ""}
-          <h2>${name}</h2>
-          <p><strong>Email:</strong><br>${email}</p>
-          <p><strong>Phone:</strong><br>${phone}</p>
-          <p><strong>Address:</strong><br>${address}</p>
-          <h3>Skills</h3>
-          <ul>${skillsList}</ul>
-        </div>
-        <div class="cv-right">
-          <h3>Profile Summary</h3>
-          <p>${summary}</p>
-          <h3>Work Experience</h3>
-          <p>${experience}</p>
-          <h3>Education</h3>
-          <p>${education}</p>
-        </div>
-      </div>
-    `;
+      <section>
+        <h3>Experience</h3>
+        <p>${experience}</p>
+      </section>
 
-    document.getElementById("cvOutput").innerHTML = output;
-    document.querySelector(".cv-section").style.display = "block";
-  }
+      <section>
+        <h3>Education</h3>
+        <p>${education}</p>
+      </section>
+
+      <section>
+        <h3>Skills</h3>
+        <p>${skills}</p>
+      </section>
+    </div>
+  `;
+
+  document.getElementById("cvOutput").innerHTML = cvHTML;
+  document.querySelector(".cv-section").style.display = "block";
 }
 
-// PDF Export
+// PDF Download (working)
 document.getElementById("downloadPDF").addEventListener("click", async () => {
   const { jsPDF } = window.jspdf;
-  const doc = new jsPDF("p", "pt", "a4");
-  const elementHTML = document.getElementById("cvPreview");
+  const cvElement = document.getElementById("cvPreview");
+  const canvas = await html2canvas(cvElement, { scale: 2 });
+  const imgData = canvas.toDataURL("image/png");
+  const pdf = new jsPDF("p", "mm", "a4");
 
-  await doc.html(elementHTML, {
-    callback: function (pdf) {
-      pdf.save("My_CV.pdf");
-    },
-    x: 20,
-    y: 20,
-    html2canvas: { scale: 0.6 }
-  });
+  const pdfWidth = pdf.internal.pageSize.getWidth();
+  const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+
+  pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
+  pdf.save("Itodo_CV.pdf");
 });
 
-// DOC Export
+// DOC Download (working)
 document.getElementById("downloadDOC").addEventListener("click", () => {
-  const content = document.getElementById("cvPreview").innerHTML;
-  const converted = window.htmlDocx.asBlob(`<!DOCTYPE html><html><body>${content}</body></html>`);
+  const cvHTML = document.getElementById("cvPreview").outerHTML;
+  const blob = window.htmlDocx.asBlob(`<!DOCTYPE html><html><body>${cvHTML}</body></html>`);
   const link = document.createElement("a");
-  link.href = URL.createObjectURL(converted);
-  link.download = "My_CV.docx";
+  link.href = URL.createObjectURL(blob);
+  link.download = "Itodo_CV.docx";
   link.click();
 });
