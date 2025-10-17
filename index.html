@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Smart CV Generator</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>Modern CV Generator</h1>
+    <div class="form-section">
+      <h2>Enter Your Details</h2>
+      <form id="cvForm">
+        <label>Full Name</label>
+        <input type="text" id="name" required>
+
+        <label>Email</label>
+        <input type="email" id="email" required>
+
+        <label>Phone</label>
+        <input type="text" id="phone" required>
+
+        <label>Address</label>
+        <input type="text" id="address" required>
+
+        <label>About / Profile Summary</label>
+        <textarea id="summary" required></textarea>
+
+        <label>Education</label>
+        <textarea id="education" placeholder="Eg: B.Sc Computer Science - 2020"></textarea>
+
+        <label>Work Experience</label>
+        <textarea id="experience" placeholder="Eg: Web Developer at XYZ Ltd (2020 - Present)"></textarea>
+
+        <label>Skills</label>
+        <input type="text" id="skills" placeholder="Eg: HTML, CSS, JS">
+
+        <button type="button" id="generateBtn">Generate CV</button>
+      </form>
+    </div>
+
+    <div class="cv-section" id="cvSection">
+      <div id="cvOutput"></div>
+      <div class="btns">
+        <button id="downloadPDF">Download PDF</button>
+        <button id="downloadDOC">Download DOC</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html-docx-js/0.3.1/html-docx.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
