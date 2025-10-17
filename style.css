@@ -1,30 +1,35 @@
 body {
   font-family: "Poppins", sans-serif;
-  background: #f7f8fc;
-  color: #333;
+  background: #fff;
   margin: 0;
   padding: 20px;
+  color: #111;
 }
 
 .container {
-  max-width: 1100px;
+  max-width: 900px;
   margin: auto;
   background: #fff;
-  border-radius: 12px;
   padding: 30px;
-  box-shadow: 0 0 15px rgba(0,0,0,0.1);
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
 }
 
 h1 {
   text-align: center;
-  color: #2c3e50;
-  margin-bottom: 20px;
+  color: #000;
+  font-weight: 700;
 }
 
-form label {
+h1 span {
+  color: #c30000; /* Red accent */
+}
+
+label {
   display: block;
-  margin-top: 10px;
+  margin-top: 12px;
   font-weight: 600;
+  color: #000;
 }
 
 input, textarea {
@@ -32,22 +37,27 @@ input, textarea {
   padding: 10px;
   margin-top: 5px;
   border: 1px solid #ccc;
-  border-radius: 8px;
+  border-radius: 6px;
   font-family: inherit;
+  font-size: 14px;
+  background: #fff;
 }
 
 button {
-  background: #2c3e50;
+  background: #c30000;
   color: #fff;
   padding: 10px 20px;
   border: none;
   border-radius: 8px;
-  cursor: pointer;
   margin-top: 15px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: 0.3s ease;
 }
 
 button:hover {
-  background: #34495e;
+  background: #000;
+  color: #fff;
 }
 
 .cv-section {
@@ -55,62 +65,59 @@ button:hover {
   margin-top: 40px;
 }
 
-/* ========== CV Preview Layout ========== */
-.cv-container {
-  display: flex;
-  border: 1px solid #ddd;
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+.cv {
+  padding: 30px;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  color: #000;
 }
 
-.cv-left {
-  width: 30%;
-  background: #2c3e50;
-  color: white;
-  padding: 20px;
-}
-
-.cv-left img {
-  width: 120px;
-  height: 120px;
-  border-radius: 50%;
-  display: block;
-  margin: 0 auto 15px;
-  object-fit: cover;
-}
-
-.cv-left h2 {
+.cv h2 {
   text-align: center;
-  font-size: 20px;
-  margin-bottom: 10px;
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 5px;
 }
 
-.cv-left p {
+.cv p {
+  text-align: center;
   font-size: 14px;
-  margin: 8px 0;
+  margin-bottom: 20px;
+  color: #555;
 }
 
-.cv-right {
-  width: 70%;
-  padding: 25px;
+.cv section {
+  margin-bottom: 20px;
 }
 
-.cv-right h3 {
-  color: #2c3e50;
-  border-bottom: 2px solid #2c3e50;
-  padding-bottom: 5px;
+.cv section h3 {
+  font-size: 16px;
+  text-transform: uppercase;
+  border-bottom: 2px solid #c30000;
+  padding-bottom: 4px;
   margin-bottom: 10px;
+  color: #000;
 }
 
-.cv-right p {
+.cv section p {
+  font-size: 14px;
   line-height: 1.6;
-  margin-bottom: 10px;
+  text-align: justify;
 }
 
 .btns {
+  text-align: center;
   margin-top: 20px;
   display: flex;
-  gap: 15px;
   justify-content: center;
+  gap: 15px;
+}
+
+#downloadPDF, #downloadDOC {
+  background: #000;
+}
+
+#downloadPDF:hover, #downloadDOC:hover {
+  background: #c30000;
 }
