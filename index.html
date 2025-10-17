@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Itodo CV Generator</title>
   <style>
-    /* General page styling */
     body {
       font-family: "Poppins", sans-serif;
       background: #fff;
@@ -81,7 +80,6 @@
       min-height: 400px;
     }
 
-    /* Minimal CV layout (no red, clean black & white) */
     #cvContent {
       font-family: "Arial", sans-serif;
       color: #000;
@@ -129,7 +127,6 @@
   <header>Itodo CV Generator</header>
 
   <div class="container">
-    <!-- Form Section -->
     <form id="cvForm">
       <label>Full Name</label>
       <input type="text" id="name" placeholder="Enter your full name" required>
@@ -152,7 +149,6 @@
       <button type="button" onclick="generateCV()">Generate CV</button>
     </form>
 
-    <!-- CV Preview Section -->
     <div class="cv-preview" id="cvPreview">
       <p style="text-align:center;color:#aaa;">Your CV will appear here...</p>
     </div>
@@ -162,17 +158,17 @@
     <button id="downloadPDF" onclick="downloadPDF()" style="display:none;">Download as PDF</button>
   </div>
 
-  <!-- html2pdf.js for PDF conversion -->
+  <!-- html2pdf.js -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
   <script>
     function generateCV() {
-      const name = document.getElementById('name').value;
-      const email = document.getElementById('email').value;
-      const phone = document.getElementById('phone').value;
-      const education = document.getElementById('education').value;
-      const experience = document.getElementById('experience').value;
-      const skills = document.getElementById('skills').value;
+      const name = document.getElementById('name').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const phone = document.getElementById('phone').value.trim();
+      const education = document.getElementById('education').value.trim();
+      const experience = document.getElementById('experience').value.trim();
+      const skills = document.getElementById('skills').value.trim();
 
       if (!name || !email || !phone) {
         alert("Please fill in all required fields.");
@@ -185,33 +181,48 @@
           <p>${email} | ${phone}</p>
           <div class="cv-section">
             <h3>Education</h3>
-            <p>${education.replace(/\n/g, '<br>')}</p>
+            <p>${education.replace(/\n/g, '<br>') || 'N/A'}</p>
           </div>
           <div class="cv-section">
             <h3>Experience</h3>
-            <p>${experience.replace(/\n/g, '<br>')}</p>
+            <p>${experience.replace(/\n/g, '<br>') || 'N/A'}</p>
           </div>
           <div class="cv-section">
             <h3>Skills</h3>
-            <p>${skills.replace(/\n/g, '<br>')}</p>
+            <p>${skills.replace(/\n/g, '<br>') || 'N/A'}</p>
           </div>
         </div>
       `;
 
-      document.getElementById("cvPreview").innerHTML = cvHTML;
-      document.getElementById("downloadPDF").style.display = "inline-block";
+      const preview = document.getElementById("cvPreview");
+      preview.innerHTML = cvHTML;
+
+      // Wait a bit before showing download button (ensures DOM update)
+      setTimeout(() => {
+        document.getElementById("downloadPDF").style.display = "inline-block";
+      }, 300);
     }
 
     function downloadPDF() {
-      const element = document.getElementById("cvContent");
-      const options = {
+      const element = document.getElementById("cvPreview");
+
+      // Ensure there’s CV content before downloading
+      if (!element.querySelector("#cvContent")) {
+        alert("Please generate your CV first.");
+        return;
+      }
+
+      const opt = {
         margin: 0.5,
         filename: "Itodo_CV.pdf",
         image: { type: "jpeg", quality: 1 },
-        html2canvas: { scale: 2 },
-        jsPDF: { unit: "in", format: "a4", orientation: "portrait" }
+        html2canvas: { scale: 2, useCORS: true },
+        jsPDF: { unit: "in", format: "a4", orientation: "portrait" },
+        pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
       };
-      html2pdf().from(element).set(options).save();
+
+      // Convert and save PDF
+      html2pdf().from(element.querySelector("#cvContent")).set(opt).save();
     }
   </script>
 
