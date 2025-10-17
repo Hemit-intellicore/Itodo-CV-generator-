@@ -3,12 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Smart CV Generator</title>
+  <title>Modern CV Generator</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <div class="container">
     <h1>Modern CV Generator</h1>
+
+    <!-- ========== Form Section ========== -->
     <div class="form-section">
       <h2>Enter Your Details</h2>
       <form id="cvForm">
@@ -24,22 +26,26 @@
         <label>Address</label>
         <input type="text" id="address" required>
 
-        <label>About / Profile Summary</label>
-        <textarea id="summary" required></textarea>
+        <label>Profile Summary</label>
+        <textarea id="summary" placeholder="Brief summary about you..."></textarea>
 
         <label>Education</label>
-        <textarea id="education" placeholder="Eg: B.Sc Computer Science - 2020"></textarea>
+        <textarea id="education" placeholder="e.g., B.Sc Computer Science - University of Lagos (2018 - 2022)"></textarea>
 
-        <label>Work Experience</label>
-        <textarea id="experience" placeholder="Eg: Web Developer at XYZ Ltd (2020 - Present)"></textarea>
+        <label>Experience</label>
+        <textarea id="experience" placeholder="e.g., Frontend Developer - Hemit Intellisoft (2022 - Present)"></textarea>
 
         <label>Skills</label>
-        <input type="text" id="skills" placeholder="Eg: HTML, CSS, JS">
+        <input type="text" id="skills" placeholder="HTML, CSS, JavaScript, React">
+
+        <label>Upload Profile Picture</label>
+        <input type="file" id="photo" accept="image/*">
 
         <button type="button" id="generateBtn">Generate CV</button>
       </form>
     </div>
 
+    <!-- ========== CV Preview Section ========== -->
     <div class="cv-section" id="cvSection">
       <div id="cvOutput"></div>
       <div class="btns">
