@@ -4,9 +4,14 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Itodo CV Generator</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+
+  <!-- Styling -->
   <style>
     body {
-      font-family: "Poppins", sans-serif;
+      font-family: "Inter", sans-serif;
       background: #fff;
       color: #111;
       margin: 0;
@@ -14,111 +19,94 @@
     }
 
     header {
-      background: #c40000;
+      background: #d32f2f;
       color: #fff;
       text-align: center;
-      padding: 1rem;
+      padding: 1.5rem 0;
       font-size: 1.5rem;
-      font-weight: bold;
-      letter-spacing: 1px;
+      font-weight: 600;
     }
 
     .container {
       display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      padding: 20px;
-      gap: 20px;
+      flex-direction: column;
+      align-items: center;
+      margin: 2rem auto;
+      width: 90%;
+      max-width: 800px;
     }
 
     form {
-      flex: 1 1 300px;
-      background: #f8f8f8;
-      padding: 20px;
+      background: #fff;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
       border-radius: 10px;
-      box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
-    }
-
-    label {
-      display: block;
-      font-weight: bold;
-      margin-top: 10px;
-    }
-
-    input, textarea {
+      padding: 2rem;
       width: 100%;
-      padding: 8px;
-      margin-top: 5px;
-      border-radius: 6px;
-      border: 1px solid #ccc;
-      font-size: 14px;
-      box-sizing: border-box;
+      margin-bottom: 2rem;
     }
 
-    button {
-      margin-top: 15px;
-      padding: 10px 15px;
+    form input, form textarea {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+
+    form button {
+      background: #d32f2f;
+      color: #fff;
+      padding: 12px 20px;
       border: none;
       border-radius: 6px;
       cursor: pointer;
-      background: #c40000;
-      color: #fff;
-      font-weight: bold;
-      transition: 0.3s;
+      font-weight: 600;
+      margin-top: 10px;
     }
 
-    button:hover {
-      background: #000;
+    form button:hover {
+      background: #b71c1c;
     }
 
-    .cv-preview {
-      flex: 1 1 400px;
+    #cv-preview {
       background: #fff;
-      border-radius: 10px;
-      padding: 20px;
-      box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
-      min-height: 400px;
-    }
-
-    #cvContent {
-      font-family: "Arial", sans-serif;
       color: #000;
-      line-height: 1.5;
+      padding: 2rem;
+      border-radius: 8px;
+      width: 100%;
+      max-width: 700px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     }
 
-    #cvContent h2 {
-      margin: 0;
-      text-align: center;
-      font-size: 22px;
-      font-weight: 700;
+    #cv-preview h2 {
+      margin-bottom: 0.2rem;
+      border-bottom: 2px solid #000;
+      padding-bottom: 5px;
     }
 
-    #cvContent p {
-      margin: 5px 0;
-      text-align: center;
-      font-size: 14px;
+    #cv-preview p {
+      margin: 6px 0;
+      line-height: 1.4;
     }
 
-    .cv-section {
-      margin-top: 20px;
+    .btn-group {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
     }
 
-    .cv-section h3 {
-      font-size: 16px;
-      text-transform: uppercase;
-      border-bottom: 1px solid #000;
-      margin-bottom: 10px;
-      padding-bottom: 4px;
+    .btn-group button {
+      background: #000;
+      color: #fff;
+      padding: 10px 16px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: 600;
     }
 
-    .cv-section p {
-      text-align: left;
-      font-size: 14px;
-    }
-
-    .download-btn {
-      text-align: center;
-      margin-top: 20px;
+    .btn-group button:hover {
+      background: #d32f2f;
     }
   </style>
 </head>
@@ -128,103 +116,93 @@
 
   <div class="container">
     <form id="cvForm">
-      <label>Full Name</label>
-      <input type="text" id="name" placeholder="Enter your full name" required>
-
-      <label>Email</label>
-      <input type="email" id="email" placeholder="Enter your email" required>
-
-      <label>Phone</label>
-      <input type="text" id="phone" placeholder="Enter your phone number" required>
-
-      <label>Education</label>
-      <textarea id="education" placeholder="Enter your education details"></textarea>
-
-      <label>Experience</label>
-      <textarea id="experience" placeholder="Enter your work experience"></textarea>
-
-      <label>Skills</label>
-      <textarea id="skills" placeholder="List your skills"></textarea>
-
-      <button type="button" onclick="generateCV()">Generate CV</button>
+      <input type="text" id="fullName" placeholder="Full Name" required>
+      <input type="email" id="email" placeholder="Email" required>
+      <input type="text" id="phone" placeholder="Phone" required>
+      <input type="text" id="address" placeholder="Address" required>
+      <textarea id="summary" placeholder="Professional Summary"></textarea>
+      <textarea id="skills" placeholder="Skills (comma separated)"></textarea>
+      <textarea id="experience" placeholder="Work Experience"></textarea>
+      <textarea id="education" placeholder="Education"></textarea>
+      <button type="submit">Generate CV</button>
     </form>
 
-    <div class="cv-preview" id="cvPreview">
-      <p style="text-align:center;color:#aaa;">Your CV will appear here...</p>
+    <div id="cv-preview" style="display:none;">
+      <h2 id="nameDisplay"></h2>
+      <p><strong>Email:</strong> <span id="emailDisplay"></span></p>
+      <p><strong>Phone:</strong> <span id="phoneDisplay"></span></p>
+      <p><strong>Address:</strong> <span id="addressDisplay"></span></p>
+      <h3>Professional Summary</h3>
+      <p id="summaryDisplay"></p>
+      <h3>Skills</h3>
+      <ul id="skillsDisplay"></ul>
+      <h3>Experience</h3>
+      <p id="experienceDisplay"></p>
+      <h3>Education</h3>
+      <p id="educationDisplay"></p>
+    </div>
+
+    <div class="btn-group" id="downloadButtons" style="display:none;">
+      <button id="downloadPDF">Download PDF</button>
+      <button id="downloadDOC">Download DOC</button>
     </div>
   </div>
 
-  <div class="download-btn">
-    <button id="downloadPDF" onclick="downloadPDF()" style="display:none;">Download as PDF</button>
-  </div>
-
-  <!-- html2pdf.js -->
+  <!-- JS Libraries -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
 
+  <!-- Script -->
   <script>
-    function generateCV() {
-      const name = document.getElementById('name').value.trim();
-      const email = document.getElementById('email').value.trim();
-      const phone = document.getElementById('phone').value.trim();
-      const education = document.getElementById('education').value.trim();
-      const experience = document.getElementById('experience').value.trim();
-      const skills = document.getElementById('skills').value.trim();
+    const form = document.getElementById('cvForm');
+    const preview = document.getElementById('cv-preview');
+    const downloadButtons = document.getElementById('downloadButtons');
 
-      if (!name || !email || !phone) {
-        alert("Please fill in all required fields.");
-        return;
-      }
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
 
-      const cvHTML = `
-        <div id="cvContent">
-          <h2>${name}</h2>
-          <p>${email} | ${phone}</p>
-          <div class="cv-section">
-            <h3>Education</h3>
-            <p>${education.replace(/\n/g, '<br>') || 'N/A'}</p>
-          </div>
-          <div class="cv-section">
-            <h3>Experience</h3>
-            <p>${experience.replace(/\n/g, '<br>') || 'N/A'}</p>
-          </div>
-          <div class="cv-section">
-            <h3>Skills</h3>
-            <p>${skills.replace(/\n/g, '<br>') || 'N/A'}</p>
-          </div>
-        </div>
-      `;
+      document.getElementById('nameDisplay').textContent = document.getElementById('fullName').value;
+      document.getElementById('emailDisplay').textContent = document.getElementById('email').value;
+      document.getElementById('phoneDisplay').textContent = document.getElementById('phone').value;
+      document.getElementById('addressDisplay').textContent = document.getElementById('address').value;
+      document.getElementById('summaryDisplay').textContent = document.getElementById('summary').value;
+      document.getElementById('experienceDisplay').textContent = document.getElementById('experience').value;
+      document.getElementById('educationDisplay').textContent = document.getElementById('education').value;
 
-      const preview = document.getElementById("cvPreview");
-      preview.innerHTML = cvHTML;
+      const skills = document.getElementById('skills').value.split(',');
+      const skillsList = document.getElementById('skillsDisplay');
+      skillsList.innerHTML = '';
+      skills.forEach(skill => {
+        const li = document.createElement('li');
+        li.textContent = skill.trim();
+        skillsList.appendChild(li);
+      });
 
-      // Wait a bit before showing download button (ensures DOM update)
-      setTimeout(() => {
-        document.getElementById("downloadPDF").style.display = "inline-block";
-      }, 300);
-    }
+      preview.style.display = 'block';
+      downloadButtons.style.display = 'flex';
+      window.scrollTo({ top: preview.offsetTop, behavior: 'smooth' });
+    });
 
-    function downloadPDF() {
-      const element = document.getElementById("cvPreview");
-
-      // Ensure there’s CV content before downloading
-      if (!element.querySelector("#cvContent")) {
-        alert("Please generate your CV first.");
-        return;
-      }
-
+    // Download PDF
+    document.getElementById('downloadPDF').addEventListener('click', () => {
+      const element = document.getElementById('cv-preview');
       const opt = {
         margin: 0.5,
-        filename: "Itodo_CV.pdf",
-        image: { type: "jpeg", quality: 1 },
-        html2canvas: { scale: 2, useCORS: true },
-        jsPDF: { unit: "in", format: "a4", orientation: "portrait" },
-        pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
+        filename: 'Itodo_CV.pdf',
+        image: { type: 'jpeg', quality: 1 },
+        html2canvas: { scale: 2 },
+        jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
       };
+      html2pdf().set(opt).from(element).save();
+    });
 
-      // Convert and save PDF
-      html2pdf().from(element.querySelector("#cvContent")).set(opt).save();
-    }
+    // Download DOC
+    document.getElementById('downloadDOC').addEventListener('click', () => {
+      const content = preview.innerHTML;
+      const blob = new Blob(['<html><head><meta charset="utf-8"></head><body>' + content + '</body></html>'], { type: 'application/msword' });
+      saveAs(blob, 'Itodo_CV.doc');
+    });
   </script>
 
 </body>
-</html>
+  </html>
