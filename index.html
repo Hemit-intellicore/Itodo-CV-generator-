@@ -184,8 +184,7 @@ Responsibilities..."></textarea>
   </div>
 
   <!-- Libraries -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
   <script>
     const form = document.getElementById('cvForm');
@@ -234,22 +233,31 @@ Responsibilities..."></textarea>
       window.scrollTo({ top: preview.offsetTop, behavior: 'smooth' });
     });
 
-    document.getElementById('downloadPDF').addEventListener('click', async () => {
-      const { jsPDF } = window.jspdf;
-      const pdf = new jsPDF('p', 'mm', 'a4');
-      const content = document.getElementById('cv-preview');
-
-      const canvas = await html2canvas(content, { scale: 2, backgroundColor: '#ffffff' });
-      const imgData = canvas.toDataURL('image/png');
-      const imgWidth = 190;
-      const imgHeight = canvas.height * imgWidth / canvas.width;
-      pdf.addImage(imgData, 'PNG', 10, 10, imgWidth, imgHeight);
-      pdf.save('Itodo_CV.pdf');
+    // ✅ Multi-page PDF download
+    document.getElementById('downloadPDF').addEventListener('click', () => {
+      const element = document.getElementById('cv-preview');
+      const opt = {
+        margin: 0.5,
+        filename: 'Itodo_CV.pdf',
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2 },
+        jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' },
+        pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
+      };
+      html2pdf().set(opt).from(element).save();
     });
 
+    // ✅ Download DOC version
     document.getElementById('downloadDOC').addEventListener('click', () => {
-      const content = document.getElementById('cv-preview').innerHTML;
-      const blob = new Blob(['<html><body>' + content + '</body></html>'], { type: 'application/msword' });
+      const content = `
+        <html>
+          <head><meta charset="utf-8"><title>Itodo CV</title></head>
+          <body style="font-family: Arial; color: #000;">
+            ${document.getElementById('cv-preview').innerHTML}
+          </body>
+        </html>
+      `;
+      const blob = new Blob([content], { type: 'application/msword' });
       const link = document.createElement('a');
       link.href = URL.createObjectURL(blob);
       link.download = 'Itodo_CV.doc';
@@ -257,4 +265,4 @@ Responsibilities..."></textarea>
     });
   </script>
 </body>
-  </html>
+</html>
