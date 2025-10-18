@@ -1,123 +1,85 @@
 body {
-  font-family: "Poppins", sans-serif;
+  font-family: 'Poppins', sans-serif;
   background: #fff;
+  color: #000;
   margin: 0;
-  padding: 20px;
-  color: #111;
+  padding: 0;
 }
 
-.container {
-  max-width: 900px;
-  margin: auto;
-  background: #fff;
-  padding: 30px;
-  border-radius: 12px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+header {
+  background-color: #b00020;
+  color: #fff;
+  text-align: center;
+  padding: 20px 0;
 }
 
 h1 {
-  text-align: center;
-  color: #000;
-  font-weight: 700;
+  margin: 0;
+  font-weight: 600;
 }
 
-h1 span {
-  color: #c30000; /* Red accent */
+main {
+  width: 90%;
+  max-width: 700px;
+  margin: 30px auto;
+  background: #fff;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 0 8px rgba(0,0,0,0.1);
+}
+
+.input-group {
+  margin-bottom: 15px;
 }
 
 label {
   display: block;
-  margin-top: 12px;
-  font-weight: 600;
-  color: #000;
+  margin-bottom: 6px;
+  font-weight: 500;
 }
 
 input, textarea {
   width: 100%;
-  padding: 10px;
-  margin-top: 5px;
+  padding: 8px;
   border: 1px solid #ccc;
   border-radius: 6px;
-  font-family: inherit;
-  font-size: 14px;
-  background: #fff;
+  outline: none;
 }
 
 button {
-  background: #c30000;
+  background-color: #b00020;
   color: #fff;
-  padding: 10px 20px;
   border: none;
-  border-radius: 8px;
-  margin-top: 15px;
+  padding: 10px 15px;
+  border-radius: 6px;
   cursor: pointer;
-  font-weight: bold;
-  transition: 0.3s ease;
+  font-weight: 500;
 }
 
 button:hover {
+  opacity: 0.9;
+}
+
+.cv-container {
+  background: #fff;
+  color: #000;
+  padding: 30px;
+  margin-top: 20px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  line-height: 1.6;
+}
+
+.cv-container h2 {
+  border-bottom: 2px solid #000;
+  padding-bottom: 4px;
+  margin-top: 20px;
+}
+
+footer {
+  text-align: center;
+  padding: 20px 0;
   background: #000;
   color: #fff;
-}
-
-.cv-section {
-  display: none;
   margin-top: 40px;
-}
-
-.cv {
-  padding: 30px;
-  background: #fff;
-  border: 1px solid #ccc;
-  border-radius: 10px;
-  color: #000;
-}
-
-.cv h2 {
-  text-align: center;
-  font-size: 24px;
-  font-weight: 700;
-  margin-bottom: 5px;
-}
-
-.cv p {
-  text-align: center;
-  font-size: 14px;
-  margin-bottom: 20px;
-  color: #555;
-}
-
-.cv section {
-  margin-bottom: 20px;
-}
-
-.cv section h3 {
-  font-size: 16px;
-  text-transform: uppercase;
-  border-bottom: 2px solid #c30000;
-  padding-bottom: 4px;
-  margin-bottom: 10px;
-  color: #000;
-}
-
-.cv section p {
-  font-size: 14px;
-  line-height: 1.6;
-  text-align: justify;
-}
-
-.btns {
-  text-align: center;
-  margin-top: 20px;
-  display: flex;
-  justify-content: center;
-  gap: 15px;
-}
-
-#downloadPDF, #downloadDOC {
-  background: #000;
-}
-
-#downloadPDF:hover, #downloadDOC:hover {
-  background: #c30000;
 }
